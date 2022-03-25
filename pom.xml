@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>CameronDouglas</groupId>
+  <artifactId>RoutePlanner</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <dependencies>
+  	<!-- https://mvnrepository.com/artifact/org.json/json -->
+	<dependency>
+	    <groupId>org.json</groupId>
+	    <artifactId>json</artifactId>
+	    <version>20211205</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/xml-apis/xml-apis -->
+	<dependency>
+	    <groupId>xml-apis</groupId>
+	    <artifactId>xml-apis</artifactId>
+	    <version>1.0.b2</version>
+	</dependency>
+	<!-- CSV Filewriter -->
+	<dependency>
+	    <groupId>com.opencsv</groupId>
+	    <artifactId>opencsv</artifactId>
+	    <version>4.1</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.jgrapht/jgrapht-core -->
+	<dependency>
+	    <groupId>org.jgrapht</groupId>
+	    <artifactId>jgrapht-core</artifactId>
+	    <version>1.3.0</version>
+	</dependency>
+
+	
+  	
+  </dependencies>
+</project>

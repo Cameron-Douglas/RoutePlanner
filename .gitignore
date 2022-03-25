@@ -1,0 +1,8 @@
+
+# Ignore OSM Data
+*.osm
+*.csv
+
+# Ignore maven artefacts
+/target/
+
