@@ -1,6 +1,8 @@
 package core;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -17,13 +19,12 @@ public class GraphGenerator {
 	
 	private static final String path = "nodes.csv";
 	public static final String fileName = "way.osm";
+	public static final String outPath = "out.gpx";
 	
 	private final static double g = 9.80655;
 	
 	private static HashMap<String, ElevNode> nodeMap = new HashMap<String, ElevNode>();
 	private static HashMap<String, List<Way>> wayMap = new HashMap<String, List<Way>>();
-	
-	private static double elevPrio = 100.0;
 	
 	private static Graph<ElevNode,Way> graph = new DirectedWeightedPseudograph<ElevNode, Way>(Way.class);
 
@@ -55,16 +56,31 @@ public class GraphGenerator {
 		System.err.println("Finding nearest node...");
 		ElevNode endNode = findNode(endX, endY);
 		
+		input.close();
+		
 		if(endNode == null) {
 			System.err.println("Unable to find node, please enter valid coordinates");
 		}
 		
 		GraphPath<ElevNode,Way> path = DijkstraShortestPath.findPathBetween(graph, startNode, endNode);
 		
+		File outFile = new File(outPath);
+		
 		double elevationGain = 0;
 		double distance = 0;
 		
 		if(path != null) {
+			try {
+				FileWriter fw = new FileWriter(outFile, true);
+				fw.write("<gpx version=\"1.1\" creator=\"Rasbats\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://www.topografix.com/GPX/1/1\" xmlns:gpxx=\"http://www.garmin.com/xmlschemas/GpxExtensions/v3\" xsi:schemaLocation=\"http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www8.garmin.com/xmlschemas/GpxExtensionsv3.xsd\" xmlns:opencpn=\"http://www.opencpn.org\">\r\n" + 
+						"<rte>\r\n" + 
+						"<name>Route</name>");
+				fw.close();
+			} catch (IOException e) {
+				System.err.println("Could not find out file");
+				e.printStackTrace();
+			}
+			
 			for(Way w : path.getEdgeList()) {
 				ElevNode start = nodeMap.get(w.startNode);
 				ElevNode end = nodeMap.get(w.endNode);
@@ -74,8 +90,29 @@ public class GraphGenerator {
 				//System.out.println(distance(start,end) + "(" + start.latitude +", "+ start.longitude + ")" + "(" + end.latitude +", "+ end.longitude + ")" );
 				distance += distance(start,end);
 				//System.out.println(start.latitude + ", " +start.longitude);
+				try {
+					FileWriter fw = new FileWriter(outFile, true);
+					fw.write("\n<rtept lat=\""+start.latitude+"\" lon=\""+start.longitude+"\">");
+					fw.write("\n <extensions>\r\n" + 
+							"<opencpn:viz>1</opencpn:viz>\r\n" + 
+							"</extensions>\r\n" + 
+							"</rtept>");
+					fw.close();
+				} catch (IOException e) {
+					System.err.println("Could not find out file");
+					e.printStackTrace();
+				}
+				
 			}
-//			System.out.println(path.getEdgeList());
+			try {
+				FileWriter fw = new FileWriter(outFile, true);
+				fw.write("\n</rte>" + "\n</gpx>");
+				fw.close();
+			} catch (IOException e) {
+				System.err.println("Could not find out file");
+				e.printStackTrace();
+			}
+
 			System.err.println("Total elevation gain: " + elevationGain + " metres");
 			System.err.println("Total distance: " + distance + " kilometers");
 		} else {
@@ -91,6 +128,7 @@ public class GraphGenerator {
 	 * Function which initialises map variables then builds the graph using JGraphT graph library
 	 */
 	private static void buildGraph() {
+		
 		MapGenerator mapGen = new MapGenerator();
 		WayReader wayGen = new WayReader();
 		
@@ -102,8 +140,7 @@ public class GraphGenerator {
 			nodeMap = mapGen.getMap();
 			wayMap = wayGen.getMap();
 			
-//			System.out.println(nodeMap.size());
-//			System.out.println(wayMap.size());
+			System.err.println("Building Graph...");
 			
 			for(ElevNode n : nodeMap.values()) {
 				graph.addVertex(n);
@@ -114,11 +151,8 @@ public class GraphGenerator {
 					
 					graph.addEdge(nodeMap.get(w.startNode), nodeMap.get(w.endNode), w);
 					nodeMap.get(w.startNode).connected = true;
-					//graph.addEdge(nodeMap.get(w.endNode), nodeMap.get(w.startNode), w);
 					nodeMap.get(w.endNode).connected = true;
 					graph.setEdgeWeight(w, cost(nodeMap.get(w.startNode),nodeMap.get(w.endNode)));
-					//graph.setEdgeWeight(w, cost(nodeMap.get(w.endNode),nodeMap.get(w.startNode)));
-					//System.out.println("adding edge ");
 				}
 			}
 			System.out.println("Graph Built");
@@ -191,7 +225,6 @@ public class GraphGenerator {
 		
 		double elevChange = endAlt - startAlt;
 		double grad = elevChange/distance * 100;
-		double gravForce = g * Math.sin(Math.atan(grad));
 		
 		if(endAlt > startAlt) {
 			//cost += distance * (gravForce * (2* elevPrio));

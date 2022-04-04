@@ -26,6 +26,9 @@ public class WayReader {
     }
 	
 	public static void read(String file) throws Exception {
+		
+		System.err.println("Reading Ways...");
+		
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		
 		SAXParser saxParser = factory.newSAXParser();

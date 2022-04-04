@@ -17,6 +17,8 @@ public class MapGenerator {
 	// Read the file parameter and parse each line into an ElevNode which is then put in the node map
 	public static void read(File file) throws Exception {
 		
+		System.err.println("Reading Nodes CSV...");
+		
 		FileReader filereader = new FileReader(file);
 		
 		CSVReader csvReader = new CSVReader(filereader);

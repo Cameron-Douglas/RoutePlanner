@@ -2,6 +2,7 @@
 # Ignore OSM Data
 *.osm
 *.csv
+*.gpx
 
 # Ignore maven artefacts
 /target/

@@ -44,7 +44,7 @@ public class XMLReader {
             
             String url = "https://maps.googleapis.com/maps/api/elevation/json?locations";
             
-            Param key = new Param("key","AIzaSyDp_PLQ8mFyXlVkjw_JxKgMcchqrJlCspk");
+            Param key = new Param("key",""); //INSERT GOOGLE MAPS API KEY
             
             Set<Node> nodeSet = handler.getSet();
             
