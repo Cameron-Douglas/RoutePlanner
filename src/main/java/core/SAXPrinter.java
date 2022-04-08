@@ -47,8 +47,6 @@ public class SAXPrinter extends DefaultHandler {
 	    	  Node newNode = new Node(attributes.getValue("id"), attributes.getValue("lat"), attributes.getValue("lon"));
     	  
 	    	  nodeSet.add(newNode);
-	
-	    	  System.out.println(nodeSet.size());
 	      }
 	      
 	      

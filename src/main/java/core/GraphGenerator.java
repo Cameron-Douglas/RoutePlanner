@@ -21,7 +21,7 @@ public class GraphGenerator {
 	public static final String fileName = "way.osm";
 	public static final String outPath = "out.gpx";
 	
-	private final static double g = 9.80655;
+	private static double elevPrio;
 	
 	private static HashMap<String, ElevNode> nodeMap = new HashMap<String, ElevNode>();
 	private static HashMap<String, List<Way>> wayMap = new HashMap<String, List<Way>>();
@@ -55,6 +55,9 @@ public class GraphGenerator {
 		
 		System.err.println("Finding nearest node...");
 		ElevNode endNode = findNode(endX, endY);
+
+		System.err.println("Enter Elevation Priority (0.1 minimum, 1 default, >1 high):");
+		elevPrio = Double.parseDouble(input.next());
 		
 		input.close();
 		
@@ -120,9 +123,17 @@ public class GraphGenerator {
 		}
 
 	}
-	
+	// Route 1
 	// 55.930233735430306, -3.25487014394548
 	// 55.91191826583644, -3.3138021216833526
+	
+	// Route 2
+	// 55.90968534363319, -3.3203696047212112
+	// 55.94492477407985, -3.188720965745217
+	
+	// Route 3
+	// 55.9420617566527, -3.21667413047194
+	// 55.950101351719375, -3.1880379750193537
 	
 	/**
 	 * Function which initialises map variables then builds the graph using JGraphT graph library
@@ -224,19 +235,15 @@ public class GraphGenerator {
 		double endAlt = Double.parseDouble(end.elevation);
 		
 		double elevChange = endAlt - startAlt;
-		double grad = elevChange/distance * 100;
+		double n = 13 * elevPrio; //Naismith conversion value multiplied by the user's elevation priority
+		
 		
 		if(endAlt > startAlt) {
-			//cost += distance * (gravForce * (2* elevPrio));
-			if(0.0 < grad && grad < 1.0) {
-				cost = distance / grad;
-			} else {
-				cost = distance * grad;
-			}
+			cost += n*elevChange;
 		} else {
 			cost += distance;
 		}
-		
+
 		return cost;
 	}
 	

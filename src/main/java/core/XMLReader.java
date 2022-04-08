@@ -122,14 +122,12 @@ public class XMLReader {
 			if(i==0) {
 				url += "=" + n.latitude + "," + n.longitude;
 			} else if(i<locs.size()) {
-				url += "%7C" + n.latitude + "," + n.longitude; //%7C is google encoding for | which would otherwise throw illegal character exception
+				url += "%7C" + n.latitude + "," + n.longitude; 
 			} 	
 			i++;
 		}
 		url += "&" + key.name + "=" + key.value;
-		
-		//System.out.println(url);
-		
+		//%7C is google encoding for | which would otherwise throw illegal character exception
 		//Query API
 		for(int tries = 0; tries<10; tries++) {
 			try {
@@ -150,8 +148,6 @@ public class XMLReader {
 	            Thread.sleep(1000);
 	            
 	        }
-	//		return "hello";
-		
 		}
 		
 		return "10 tries reached";
