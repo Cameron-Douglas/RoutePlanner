@@ -15,3 +15,10 @@
 2. If using a new area, generate a Google Maps API key, following the instructions: https://developers.google.com/maps/documentation/elevation/start, then add the key in the quotes on line 47 of XMLReader.java. Then ensuring that <i>nodes.csv</i> is empty, run <i>XMLReader.java</i>
 
 3. Once <i>nodes.csv</i> is populated, run <i>GraphGenerator.java</i> and follow the instructions in the console. This will populate the file <i>out.gpx</i> and using https://www.google.com/maps/d/ you can view the produced route. The <i>.gpx</i> file can also be used with Garmin bike computers, following the steps on https://support.garmin.com/en-GB/?faq=wKuZXCaZRP4mWPX5aRz5h5 the file can be uploaded to any compatible Garmin head unit.
+
+
+# Terms of use 
+
+This route planner is the intellectual property of the author Cameron Daniel Douglas, any refferences to, or uses made must be properly refferenced and accredited to the author.
+
+In using this application, you agree to taking full responsibility for the safe use of this service. Any use of this service is done so entirely at the risk of the user. Furthermore you accept that you will follow and adhere to any and all applicable laws whilst using this service. The author will accept no liability for damages recieved or done onto during use of this service.
