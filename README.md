@@ -7,7 +7,7 @@
     - nodes.csv
     - out.gpx
  
-</br>Pre-populated versions of these files can be accessed here: https://heriotwatt-my.sharepoint.com/:f:/g/personal/cd94_hw_ac_uk/Ek_5cXjrLXtKl9cla0Dq8ykB5PiZ7U6TEVNC6NK-wdnrfA?e=2l0wTj
+</br>Pre-populated versions of these files can be accessed here: https://1drv.ms/u/s!AlM4VW7PBKQvhaR8mLOhCV3ciyTe8g?e=aLpnov
 
 </br>This is the map for Edinburgh and <i>nodes.csv</i> is already populated.
 </br>If you wish to map a different area use: https://extract.bbbike.org/ to get the map.osm data and split these into two files: <i>nodes.osm</i> and <i>way.osm</i>, each containing just the nodes and just the ways from <i>map.osm</i>
