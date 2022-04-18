@@ -227,9 +227,9 @@ public class GraphGenerator {
 	 * gravForce is multiplied my elevPrio which is a double which determines how much the user cares about hills (0 = not at all, 1 = default, >1 = more care)
 	 */
 	private static double cost(ElevNode start, ElevNode end) {
-		double distance = distance(start,end);
+		double distance = distance(start,end) * 1000; //Get distance in metres
 		
-		double cost = 0;
+		double cost;
 		
 		double startAlt = Double.parseDouble(start.elevation);
 		double endAlt = Double.parseDouble(end.elevation);
@@ -239,9 +239,9 @@ public class GraphGenerator {
 		
 		
 		if(endAlt > startAlt) {
-			cost += n*elevChange;
+			cost = (n*elevChange)/distance;
 		} else {
-			cost += distance;
+			cost = 1.0/distance;
 		}
 
 		return cost;
