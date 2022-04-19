@@ -29,10 +29,12 @@ public class GraphGenerator {
 	private static Graph<ElevNode,Way> graph = new DirectedWeightedPseudograph<ElevNode, Way>(Way.class);
 
 	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+		
+		System.err.println("Enter Elevation Priority (0.1 minimum, 1 default, >1 high):");
+		elevPrio = Double.parseDouble(input.next());
 		
 		buildGraph();
-		
-		Scanner input = new Scanner(System.in);
 		
 		System.out.println("Enter Start Latitude:");
 		String startX = input.next();
@@ -55,9 +57,6 @@ public class GraphGenerator {
 		
 		System.err.println("Finding nearest node...");
 		ElevNode endNode = findNode(endX, endY);
-
-		System.err.println("Enter Elevation Priority (0.1 minimum, 1 default, >1 high):");
-		elevPrio = Double.parseDouble(input.next());
 		
 		input.close();
 		
@@ -227,9 +226,9 @@ public class GraphGenerator {
 	 * gravForce is multiplied my elevPrio which is a double which determines how much the user cares about hills (0 = not at all, 1 = default, >1 = more care)
 	 */
 	private static double cost(ElevNode start, ElevNode end) {
-		double distance = distance(start,end) * 1000; //Get distance in metres
+		double distance = distance(start,end); 
 		
-		double cost;
+		double cost = 0;
 		
 		double startAlt = Double.parseDouble(start.elevation);
 		double endAlt = Double.parseDouble(end.elevation);
@@ -239,9 +238,9 @@ public class GraphGenerator {
 		
 		
 		if(endAlt > startAlt) {
-			cost = (n*elevChange)/distance;
+			cost += n*elevChange;
 		} else {
-			cost = 1.0/distance;
+			cost += distance;
 		}
 
 		return cost;
