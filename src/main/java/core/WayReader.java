@@ -25,9 +25,12 @@ public class WayReader {
 		
     }
 	
+	// Read in the parameterised file and pass it to SAXPrinter
 	public static void read(String file) throws Exception {
 		
 		System.err.println("Reading Ways...");
+		
+		//Sax Parser tutorial found at https://mkyong.com/java/how-to-read-xml-file-in-java-sax-parser/
 		
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		

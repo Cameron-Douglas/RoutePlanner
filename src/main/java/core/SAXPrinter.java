@@ -17,6 +17,8 @@ import core.MapGenerator.ElevNode;
 
 public class SAXPrinter extends DefaultHandler {
 
+	//Sax Parser tutorial found at https://mkyong.com/java/how-to-read-xml-file-in-java-sax-parser/
+
 	private StringBuilder currentValue = new StringBuilder();
 	
 	private Set<Node> nodeSet = new HashSet<Node>();
@@ -50,6 +52,9 @@ public class SAXPrinter extends DefaultHandler {
 	      }
 	      
 	      
+
+		  // Logic for adding ways to wayMap
+
 	      if(qName.contentEquals("way")) {
 	    	  
 	    	  List<Way> list = new ArrayList<Way>();
@@ -84,6 +89,8 @@ public class SAXPrinter extends DefaultHandler {
 	    	 
 	      }
 	      
+		  // Checking for maxspeed tag
+		  
 	      if(qName.contentEquals("tag")) {
 	    	  //System.out.println(lastWay);
 	    	  if(attributes.getValue("k").equals("maxspeed") && attributes.getValue("v").contentEquals("60 mph") || attributes.getValue("v").contentEquals("70 mph")) {

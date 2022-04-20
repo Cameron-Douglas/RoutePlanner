@@ -29,6 +29,8 @@ public class GraphGenerator {
 	private static Graph<ElevNode,Way> graph = new DirectedWeightedPseudograph<ElevNode, Way>(Way.class);
 
 	public static void main(String[] args) {
+
+		// Take in user input
 		Scanner input = new Scanner(System.in);
 		
 		System.err.println("Enter Elevation Priority (0.1 minimum, 1 default, >1 high):");
@@ -64,6 +66,8 @@ public class GraphGenerator {
 			System.err.println("Unable to find node, please enter valid coordinates");
 		}
 		
+
+		// Initialise graph path variable
 		GraphPath<ElevNode,Way> path = DijkstraShortestPath.findPathBetween(graph, startNode, endNode);
 		
 		File outFile = new File(outPath);
@@ -71,12 +75,16 @@ public class GraphGenerator {
 		double elevationGain = 0;
 		double distance = 0;
 		
+		// write to output file
 		if(path != null) {
 			try {
 				FileWriter fw = new FileWriter(outFile, true);
+
+				// GPX Formatting found at https://www.opencpn.org/OpenCPN/info/gpxvalidation.html
 				fw.write("<gpx version=\"1.1\" creator=\"Rasbats\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://www.topografix.com/GPX/1/1\" xmlns:gpxx=\"http://www.garmin.com/xmlschemas/GpxExtensions/v3\" xsi:schemaLocation=\"http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www8.garmin.com/xmlschemas/GpxExtensionsv3.xsd\" xmlns:opencpn=\"http://www.opencpn.org\">\r\n" + 
 						"<rte>\r\n" + 
 						"<name>Route</name>");
+
 				fw.close();
 			} catch (IOException e) {
 				System.err.println("Could not find out file");
@@ -84,6 +92,8 @@ public class GraphGenerator {
 			}
 			
 			for(Way w : path.getEdgeList()) {
+
+				// Calculate elevation gain
 				ElevNode start = nodeMap.get(w.startNode);
 				ElevNode end = nodeMap.get(w.endNode);
 				if(Double.parseDouble(end.elevation) > Double.parseDouble(start.elevation)) {
@@ -108,6 +118,7 @@ public class GraphGenerator {
 			}
 			try {
 				FileWriter fw = new FileWriter(outFile, true);
+				// Close GPX file
 				fw.write("\n</rte>" + "\n</gpx>");
 				fw.close();
 			} catch (IOException e) {
@@ -122,6 +133,9 @@ public class GraphGenerator {
 		}
 
 	}
+
+	// ----- TEST ROUTE COORDINATES -----
+
 	// Route 1
 	// 55.930233735430306, -3.25487014394548
 	// 55.91191826583644, -3.3138021216833526
